@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  mysql_db:
+    image: mysql:latest
+    container_name: mysql_database
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+    networks:
+      - yegob
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  symfony_app:
+    build:
+      context: .
+      args:
+        USER_ID: ${USER_ID}
+        GROUP_ID: ${GROUP_ID}
+    container_name: symfony_app
+    ports:
+      - '8081:9000'
+    environment:
+      - SYMFONY_DATABASE_HOST=mysql_db
+      - SYMFONY_DATABASE_PORT_NUMBER=3306
+      - SYMFONY_DATABASE_USER=${MYSQL_USER}
+      - SYMFONY_DATABASE_PASSWORD=${MYSQL_PASSWORD}
+      - SYMFONY_DATABASE_NAME=${MYSQL_DATABASE}
+    volumes:
+      - './app:/var/www/html/'
+    depends_on:
+      - mysql_db
+    networks:
+      - yegob
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - '8082:80'
+    environment:
+      - PMA_ARBITRARY=1
+    depends_on:
+      - mysql_db
+    networks:
+      - yegob
+
+volumes:
+  mysql_data:
+networks:
+  yegob:
+    driver: bridge
+

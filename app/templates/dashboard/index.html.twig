@@ -1,0 +1,53 @@
+{% extends 'dashboard/base.html.twig' %}
+{% block title %}Dashboard - Yegob Monetization{% endblock%}
+{% block body %}
+    <div class="row">
+        <div class="col col-lg-3  mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <p>Today's balance</p>
+                    <h2>{{ currentUniquePageViews * 0.4 }} Rwf</h2>
+                    <i class="fa-solid fa-sack-dollar"></i>
+                </div>
+            </div>
+            <hr/>
+            <div class="card">
+                <div class="card-body">
+                    <p>Today's Unique Pageviews</p>
+                    <h2>{{ currentUniquePageViews }} views</h2>
+                    <i class="fa-solid fa-sack-dollar"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col col-lg-9  mt-3">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="table-light">
+                <tr class="text-center">
+                    <th>Date</th>
+                    <th>Pageviews</th>
+                    <th>Unique pageviews</th>
+                    <th>Total earning</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for report in reports %}
+                    <tr class="text-center">
+                        <td>{{ report.updatedAt|date("d/m/Y") }}</td>
+                        <td>{{ report.pageviews }}</td>
+                        <td>{{ report.uniquePageviews }}</td>
+                        <td>{{ report.uniquePageviews * 400/1000 }} Rwf</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr class="text-center table-dark">
+                    <td><b>Total</b></td>
+                    <td>{{ totalPageviews }}</td>
+                    <td>{{ totalUniquePageViews }}</td>
+                    <td>{{ totalUniquePageViews * 400/1000 }} Rwf</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block title %}Articles - YegoB Monetization{% endblock %}
+
+{% block body %}
+    <div class="row grid">
+        {% for article in articles %}
+            <div class="col col-lg-4 mt-4 grid-item">
+                <div class="card">
+                    <img src="{{ article.jetpack_featured_media_url }}" />
+                    <div class="card-body">
+                        <h5 class="card-title">{{ article.title.rendered | raw }}</h5>
+                    </div>
+                    <div class="card-footer">
+                        <h6>Link to share:</h6>
+                        <p>
+                            <a target="_blank" href="{{ article.link }}?utm_source={{ user.username }}&utm_medium=monetization">
+                                {{ article.link }}?utm_source={{ user.username }}&utm_medium=monetization
+                            </a>
+                        </p>
+                        <div>
+                            <button class="btn btn-primary">Copy link</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
