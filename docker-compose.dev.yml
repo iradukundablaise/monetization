@@ -22,7 +22,7 @@ services:
         GROUP_ID: ${GROUP_ID}
     container_name: symfony_app
     ports:
-      - '80:9000'
+      - '8081:9000'
     environment:
       - SYMFONY_DATABASE_HOST=mysql_db
       - SYMFONY_DATABASE_PORT_NUMBER=3306
