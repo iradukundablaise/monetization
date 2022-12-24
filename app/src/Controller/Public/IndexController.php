@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends AbstractController
 {
-    #[Route('/public/index', name: 'app_public_index')]
+    #[Route('/', name: 'app_public_index')]
     public function index(): Response
     {
         return $this->redirectToRoute('app_dashboard_index');
