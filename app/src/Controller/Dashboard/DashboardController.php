@@ -3,22 +3,18 @@
 namespace App\Controller\Dashboard;
 
 use App\Entity\Report;
-use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\ReportRepository;
 use App\Service\GoogleAnalyticsService;
 use App\Service\Yegob_WP_Service;
 use Carbon\Carbon;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Cache\ItemInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
-use Symfony\UX\Chartjs\Model\Chart;
 
 #[Route('/dashboard', name: 'app_dashboard')]
 class DashboardController extends AbstractController
@@ -27,7 +23,7 @@ class DashboardController extends AbstractController
     #[Route('/', name: '_index')]
     public function index(
         Request $request,
-        EntityManagerInterface $entityManager
+        ReportRepository $repository
     ): Response
     {
         $user = $this->getUser();
@@ -38,7 +34,7 @@ class DashboardController extends AbstractController
         $month = $date->month;
         $year = $date->year;
 
-        $reports = $entityManager->getRepository(Report::class)->findReportsMonthly(
+        $reports = $repository->findReportsMonthly(
             $user->getId(),
             $date->startofMonth()->format('Y-m-d'),
             $date->endOfMonth()->format('Y-m-d')
@@ -104,11 +100,13 @@ class DashboardController extends AbstractController
             // Save the updated user information
             // dd($form->getData());
             $user = $form->getData();
+            dd($user);
         }
 
         return $this->render('dashboard/account.html.twig', [
             'user' => $this->getUser(),
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'isAdmin' => $this->getUser()->isAdmin()
         ]);
     }
 

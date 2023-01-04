@@ -14,13 +14,11 @@
                     <div class="card-footer">
                         <h6>Link to share:</h6>
                         <p>
-                            <a target="_blank" href="{{ article.link }}?utm_source={{ user.username }}&utm_medium=monetization">
-                                {{ article.link }}?utm_source={{ user.username }}&utm_medium=monetization
+                            <a href="{{ absolute_url(path('app_public_redirect', {postId: article.id, userId: user.id})) }}">
+                                {{ absolute_url(path('app_public_redirect', {postId: article.id, userId: user.id})) }}
                             </a>
                         </p>
-                        <div>
-                            <button class="btn btn-primary">Copy link</button>
-                        </div>
+
                     </div>
                 </div>
             </div>

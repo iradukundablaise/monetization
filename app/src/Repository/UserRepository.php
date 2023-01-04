@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use Carbon\Carbon;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -56,11 +57,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
-    public function findAllUsers(): array
-    {
-        return [];
-    }
+    public function findUsersAndReportByDate(array $dates){
 
+        $startDate = $dates['startDate'];
+        $endDate = $dates['endDate'];
+
+        return $this->createQueryBuilder('u')
+                    ->leftJoin('u.reports', 'r')
+                    ->andWhere('r.created_at BETWEEN :startDate AND :endDate')
+                    ->setParameter('startDate', $startDate)
+                    ->setParameter('endDate', $endDate)
+                    ->getQuery()
+                    ->getResult();
+    }
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

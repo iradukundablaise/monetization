@@ -78,6 +78,15 @@ class Yegob_WP_Service
         return [];
     }
 
+    public function getPostFromWP(int $postId){
+        $response = $this->request("/posts/$postId");
+
+        if($response->getStatusCode() === Response::HTTP_OK){
+            return $response->toArray();
+        }
+        return null;
+    }
+
     public function getPostsFromWP(int $page = 1, int $postsPerPage = 20): array
     {
         $response = $this->request(
