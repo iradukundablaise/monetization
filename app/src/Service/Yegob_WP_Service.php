@@ -71,7 +71,7 @@ class Yegob_WP_Service
                 ]
             ]
         );
-        dd($response->getStatusCode());
+
         if($response->getStatusCode() === Response::HTTP_OK){
             return $response->toArray();
         }
