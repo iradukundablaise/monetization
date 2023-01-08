@@ -13,8 +13,9 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             if [ -d .git ]; then
-              cd monetization
+              cd ~/monetization
               git pull
             else
-              git clone git@github.com:iradukundablaise/monetization.git .
+              cd ~
+              git clone git@github.com:iradukundablaise/monetization.git
             fi
