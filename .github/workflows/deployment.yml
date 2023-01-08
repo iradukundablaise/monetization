@@ -15,8 +15,6 @@ jobs:
             if [ -d ~/monetization ]; then
               cd ~/monetization
               git pull
-              composer install
-              npm install
             else
               cd ~
               git clone git@github.com:iradukundablaise/monetization.git 
