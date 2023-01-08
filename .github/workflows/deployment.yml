@@ -1,0 +1,16 @@
+name: deployment
+run-name: ${{ github.actor }} is deploying the app
+on: [push]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: appleboy/ssh-action@v1.1.1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script:
+            cd ~/monetization
+            git pull
