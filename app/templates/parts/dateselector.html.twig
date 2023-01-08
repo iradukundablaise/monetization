@@ -1,0 +1,28 @@
+<form method="get" class="row mt-2 mb-3">
+    <div class="col-auto">
+        <label for="month">Month</label>
+        <select name="month" id="month" class="form-control">
+            {% for month in 1..12 %}
+                {% set date = month ~ "/1/2016" %}
+                <option value="{{ date|date("m") }}" {{ dates.month == month ? 'selected' : '' }}>
+                    {{ date|date("F") }}
+                </option>
+            {% endfor %}
+
+        </select>
+    </div>
+    <div class="col-auto">
+        <label for="year">Year</label>
+        <select name="year" id="year" class="form-control">
+            {% set currentYear = 'now'|date("Y") %}
+            {% for year in (currentYear-10)..currentYear %}
+                <option value="{{ year }}" {{ dates.year == year ? 'selected' : '' }}>
+                    {{ year }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mt-auto col-auto">
+        <button type="submit" class="btn btn-primary">Select period</button>
+    </div>
+</form>

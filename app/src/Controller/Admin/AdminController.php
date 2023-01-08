@@ -34,7 +34,10 @@ class AdminController extends AbstractController
             )->endOfMonth()->format('Y-m-d')
         ];
 
-        $users = $userRepository->findUsersAndReportByDate($dates);
+        $users = $userRepository->findUsersAndReportByDate(
+            $dates,
+            intval($request->get('page', 1))
+        );
 
         $selectDateForm = $this->createForm(DateSelectorType::class, null);
 

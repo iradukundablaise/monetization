@@ -5,7 +5,10 @@ namespace App\Repository;
 use App\Entity\User;
 use Carbon\Carbon;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\OrderBy;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -20,9 +23,22 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    private PaginatorInterface $paginator;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        PaginatorInterface $paginator
+    )
     {
         parent::__construct($registry, User::class);
+        $this->paginator = $paginator;
+    }
+
+    public function findAll(int $page = 1, int $limit = 10){
+        return $this->paginator->paginate(
+            $this->createQueryBuilder(),
+
+        );
     }
 
     public function save(User $entity, bool $flush = false): void
@@ -57,18 +73,28 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
-    public function findUsersAndReportByDate(array $dates){
+    public function findUsersAndReportByDate(
+        array $dates,
+        int $page = 1,
+        int $limit = 10
+    ): PaginationInterface
+    {
 
         $startDate = $dates['startDate'];
         $endDate = $dates['endDate'];
 
-        return $this->createQueryBuilder('u')
+        $query = $this->createQueryBuilder('u')
                     ->leftJoin('u.reports', 'r')
                     ->andWhere('r.created_at BETWEEN :startDate AND :endDate')
                     ->setParameter('startDate', $startDate)
                     ->setParameter('endDate', $endDate)
-                    ->getQuery()
-                    ->getResult();
+                    ->orderBy('u.firstname', 'ASC')
+                    ->getQuery();
+        return $this->paginator->paginate($query, $page, $limit);
+    }
+
+    public function findUsersExceptMe(User $user){
+
     }
 //    /**
 //     * @return User[] Returns an array of User objects
