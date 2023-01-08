@@ -48,7 +48,7 @@ class ImportUsersCommand extends Command
         $repository = $this->entityManager->getRepository(User::class);
 
         $users = $this->yegobService->getUsersFromWP();
-
+        dd($users);
         while($users != []){
             // create users //
             foreach($users as $user){
