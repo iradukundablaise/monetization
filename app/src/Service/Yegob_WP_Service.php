@@ -19,6 +19,7 @@ class Yegob_WP_Service
         string $apiUsername,
         string $apiPassword
     ){
+        dd($apiUsername, $apiPassword);
         $cache = new FilesystemAdapter();
         $this->client = $httpClient;
         $this->apiKey = $cache->get('yegob_wp_api_token',
