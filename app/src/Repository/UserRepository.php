@@ -34,15 +34,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->paginator = $paginator;
     }
 
-    /*
-    public function findAll(int $page = 1, int $limit = 10){
+    public function findUsers(int $page = 1, int $limit = 10){
         return $this->paginator->paginate(
-            $this->createQueryBuilder(),
-
+            $this->findAll(),
+            $page,
+            $limit
         );
     }
-
-    */
 
     public function save(User $entity, bool $flush = false): void
     {

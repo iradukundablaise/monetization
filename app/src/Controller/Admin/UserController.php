@@ -7,6 +7,7 @@ use App\Form\User1Type;
 use App\Form\UserType;
 use App\Repository\ReportRepository;
 use App\Repository\UserRepository;
+use Carbon\Carbon;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,10 +17,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     #[Route('/', name: 'app_admin_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    public function index(
+        Request $request,
+        UserRepository $userRepository
+    ): Response
     {
         return $this->render('admin/user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $userRepository->findUsers($request->get('page', 1)),
             'user' => $this->getUser()
         ]);
     }
@@ -47,7 +51,8 @@ class UserController extends AbstractController
     public function show(User $user): Response
     {
         return $this->render('admin/user/show.html.twig', [
-            'user' => $user,
+            'user' => $this->getUser(),
+            'account' => $user
         ]);
     }
 
@@ -82,18 +87,34 @@ class UserController extends AbstractController
     #[Route('/{id}/stats', name: 'app_admin_user_stats', methods: ['GET'])]
     public function stats(Request $request, User $user, ReportRepository $reportRepository): Response
     {
-        $month = $request->get('month', date('m'));
-        $year = $request->get('month', date('Y'));
+        $selectedYear = $request->get('year', date('Y'));
+        $selectedMonth = $request->get('month', date('m'));
+
+        $dates = [
+            'startDate' => Carbon::createFromDate(
+                intval($selectedYear),
+                intval($selectedMonth)
+            )->startOfMonth()->format('Y-m-d'),
+            'endDate' => Carbon::createFromDate(
+                intval($selectedYear),
+                intval($selectedMonth)
+            )->endOfMonth()->format('Y-m-d')
+        ];
 
         $reports = $reportRepository->findReportsMonthly(
             $user->getId(),
-            $month,
-            $year
+            $selectedMonth,
+            $selectedYear
         );
 
         return $this->render('admin/user/stats.html.twig', [
             'reports' => $reports,
-            'user' => $this->getUser()
+            'user' => $this->getUser(),
+            'dates' => [
+                'month' => $selectedMonth,
+                'year' => $selectedYear,
+                'range' => $dates
+            ]
         ]);
     }
 }

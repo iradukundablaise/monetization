@@ -5,6 +5,9 @@
 {% block body %}
     <h1>Users</h1>
     <hr/>
+    <div class="mt-2 mb-2">
+        <a class="btn btn-primary" href="{{ path('app_admin_user_new') }}">Create new</a>
+    </div>
     <table class="table table-striped mb-3">
         <thead class="text-center">
             <tr class="table-dark">
@@ -21,8 +24,8 @@
                 <td>{{ user.lastname }}</td>
                 <td>{{ 'ROLE_ADMIN' in user.roles ? 'Admin': 'User' }}</td>
                 <td>
-                    <a class="btn btn-primary" href="{{ path('app_admin_user_show', {'id': user.id}) }}">show</a>
-                    <a class="btn btn-info" href="{{ path('app_admin_user_edit', {'id': user.id}) }}">edit</a>
+                    <a class="btn btn-info" href="{{ path('app_admin_user_show', {'id': user.id}) }}">Show</a>
+                    <a class="btn btn-warning" href="{{ path('app_admin_user_edit', {'id': user.id}) }}">Edit</a>
                 </td>
             </tr>
         {% else %}
@@ -32,6 +35,7 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_admin_user_new') }}">Create new</a>
+    <div class="pagination">
+        {{ knp_pagination_render(users) }}
+    </div>
 {% endblock %}

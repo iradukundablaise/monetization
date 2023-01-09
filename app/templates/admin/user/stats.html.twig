@@ -1,0 +1,40 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Dashboard - Yegob Monetization{% endblock%}
+{% block body %}
+    <div class="row">
+        <div class="col-12 mt-3">
+            <h1 class="mt-3">{{ user.firstname }}'s reports</h1>
+            <h6>Period: {{ (dates.month ~ '/1/2016')|date('F') }} {{ dates.year }}</h6>
+            <hr/>
+            {% include 'parts/dateselector.html.twig' %}
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="table-light">
+                <tr class="text-center">
+                    <th>Date</th>
+                    <th>Pageviews</th>
+                    <th>Unique pageviews</th>
+                    <th>Total earning</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for report in reports %}
+                    <tr class="text-center">
+                        <td>{{ report.updatedAt|date("d/m/Y") }}</td>
+                        <td>{{ report.pageviews }}</td>
+                        <td>{{ report.uniquePageviews }}</td>
+                        <td>{{ report.uniquePageviews * 400/1000 }} Rwf</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr class="text-center table-dark">
+                    <td><b>Total</b></td>
+                    <td>{{ reports|reduce((acc, report) => acc + report.pageviews, 0) }}</td>
+                    <td>{{ reports|reduce((acc, report) => acc + report.uniquePageviews, 0) }}</td>
+                    <td>{{ reports|reduce((acc, report) => acc + report.uniquePageviews, 0) * 0.4 }} RWF</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+{% endblock %}

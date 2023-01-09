@@ -27,12 +27,13 @@ class DashboardController extends AbstractController
     ): Response
     {
         $user = $this->getUser();
-        $date = Carbon::now();
+        $selectedYear = $request->get('year', date('Y'));
+        $selectedMonth = $request->get('month', date('m'));
 
         $reports = $repository->findReportsMonthly(
             $user->getId(),
-            $date->startofMonth()->format('Y-m-d'),
-            $date->endOfMonth()->format('Y-m-d')
+            $selectedMonth,
+            $selectedYear
         );
 
         $totalUniquePageViews = array_reduce(

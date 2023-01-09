@@ -41,6 +41,7 @@ class ReportRepository extends ServiceEntityRepository
     }
 
     public function findReportsMonthly($userId, $month, $year){
+
         $period = Carbon::createFromDate(
             intval($year),
             intval($month)
