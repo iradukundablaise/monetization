@@ -25,7 +25,7 @@
                 <td>{{ account.reports|reduce((acc, report) => acc + report.uniquePageviews, 0) * 0.4 }} RWF</td>
                 <td>
                     <a href="{{ path('app_admin_user_show', { id : account.id }) }}" class="btn btn-primary">View profile</a>
-                    <a href="" class="btn btn-info">Statistics</a>
+                    <a href="{{ path('app_admin_user_stats', { id: account.id }) }}" class="btn btn-info">Statistics</a>
                 </td>
             </tr>
         {% else %}

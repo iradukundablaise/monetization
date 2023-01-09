@@ -40,12 +40,17 @@ class ReportRepository extends ServiceEntityRepository
         }
     }
 
-    public function findReportsMonthly($userId, $startDate, $endDate){
+    public function findReportsMonthly($userId, $month, $year){
+        $period = Carbon::createFromDate(
+            intval($year),
+            intval($month)
+        );
+
         $queryBuilder = $this->createQueryBuilder('r')
             ->where('r.updated_at >= :startDate')
-            ->setParameter('startDate', $startDate)
+            ->setParameter('startDate', $period->startOfMonth()->format('Y-m-d'))
             ->andWhere('r.updated_at <= :endDate')
-            ->setParameter('endDate', $endDate)
+            ->setParameter('endDate', $period->endOfMonth()->format('Y-m-d'))
             ->andWhere('r.user = :userId')
             ->setParameter('userId', $userId)
             ->orderBy('r.updated_at', 'ASC');

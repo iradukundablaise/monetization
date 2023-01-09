@@ -27,12 +27,7 @@ class DashboardController extends AbstractController
     ): Response
     {
         $user = $this->getUser();
-
         $date = Carbon::now();
-
-        $nbDays = $date->daysInMonth;
-        $month = $date->month;
-        $year = $date->year;
 
         $reports = $repository->findReportsMonthly(
             $user->getId(),

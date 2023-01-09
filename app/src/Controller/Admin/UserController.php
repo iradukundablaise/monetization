@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use App\Form\User1Type;
 use App\Form\UserType;
+use App\Repository\ReportRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -76,5 +77,20 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/stats', name: 'app_admin_user_stats', methods: ['GET'])]
+    public function stats(Request $request, User $user, ReportRepository $reportRepository): Response
+    {
+        $month = $request->get('month', date('m'));
+        $year = $request->get('month', date('Y'));
+
+        $reports = $reportRepository->findReportsMonthly(
+            $user->getId(),
+            $month,
+            $year
+        );
+
+        dd($reports);
     }
 }
