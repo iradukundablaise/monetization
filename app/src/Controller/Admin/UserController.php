@@ -63,7 +63,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/user/edit.html.twig', [
+        return $this->render('admin/user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
@@ -91,6 +91,9 @@ class UserController extends AbstractController
             $year
         );
 
-        dd($reports);
+        return $this->render('admin/user/stats.html.twig', [
+            'reports' => $reports,
+            'user' => $this->getUser()
+        ]);
     }
 }
