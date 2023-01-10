@@ -164,6 +164,12 @@
       <path value="$PROJECT_DIR$/app/vendor/phpseclib/phpseclib" />
       <path value="$PROJECT_DIR$/app/vendor/knplabs/knp-components" />
       <path value="$PROJECT_DIR$/app/vendor/knplabs/knp-paginator-bundle" />
+      <path value="$PROJECT_DIR$/app/vendor/symfonycasts/reset-password-bundle" />
+      <path value="$PROJECT_DIR$/app/vendor/swiftmailer/swiftmailer" />
+      <path value="$PROJECT_DIR$/app/vendor/mailjet/mailjet-apiv3-php" />
+      <path value="$PROJECT_DIR$/app/vendor/mailjet/mailjet-swiftmailer" />
+      <path value="$PROJECT_DIR$/app/vendor/mailjet/mailjet-bundle" />
+      <path value="$PROJECT_DIR$/app/vendor/symfony/mailjet-mailer" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />

@@ -24,7 +24,7 @@
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-primary">Login</button>
-                    <hr/>
+                    <p class="text-center"><a href="{{ path('app_forgot_password_request') }}">Reset password</a></p>
                     <a href="{{ path('app_register') }}" class="btn btn-danger">Create an account</a>
                 </div>
             </form>

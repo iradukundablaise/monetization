@@ -3,6 +3,7 @@
 namespace App\Controller\Dashboard;
 
 use App\Entity\Report;
+use App\Form\User1Type;
 use App\Form\UserType;
 use App\Repository\ReportRepository;
 use App\Service\GoogleAnalyticsService;
@@ -90,13 +91,15 @@ class DashboardController extends AbstractController
     {
         $form = $this->createForm(UserType::class, $this->getUser());
 
+        // remove roles and password
+        $form->remove('roles');
+        $form->remove('password');
+
         // Handle the form submission
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Save the updated user information
-            // dd($form->getData());
             $user = $form->getData();
-            dd($user);
         }
 
         return $this->render('dashboard/account.html.twig', [
@@ -105,15 +108,4 @@ class DashboardController extends AbstractController
             'isAdmin' => $this->getUser()->isAdmin()
         ]);
     }
-
-    #[Route('/testapi', name: '_testapi_page')]
-    public function testApiToken(Request $request, Yegob_WP_Service $apiService){
-        dd($apiService->getUsersFromWP());
-    }
-
-    #[Route('/reports', name: '_reports_page')]
-    public function testReports(Request $request, GoogleAnalyticsService $analyticsService){
-        dd($analyticsService->getReportsByAuthor());
-    }
-
 }

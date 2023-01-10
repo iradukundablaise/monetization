@@ -19,3 +19,4 @@ jobs:
               cd ~
               git clone git@github.com:iradukundablaise/monetization.git 
             fi
+            docker exec symfony_app bash -c "composer install"

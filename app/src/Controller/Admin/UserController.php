@@ -32,17 +32,18 @@ class UserController extends AbstractController
     public function new(Request $request, UserRepository $userRepository): Response
     {
         $user = new User();
-        $form = $this->createForm(User1Type::class, $user);
+        $form = $this->createForm(UserType::class, $user);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository->save($user, true);
-
+            $userRepository->save($form->getData(), true);
             return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('admin/user/new.html.twig', [
-            'user' => $user,
+            'user' => $this->getUser(),
+            'account' => $user,
             'form' => $form,
         ]);
     }
@@ -64,8 +65,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->save($user, true);
-
-            return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_user_edit', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('admin/user/edit.html.twig', [

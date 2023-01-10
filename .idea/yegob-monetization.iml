@@ -159,6 +159,12 @@
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/phpseclib/phpseclib" />
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/knplabs/knp-components" />
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/knplabs/knp-paginator-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/app/vendor/symfonycasts/reset-password-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/app/vendor/swiftmailer/swiftmailer" />
+      <excludeFolder url="file://$MODULE_DIR$/app/vendor/mailjet/mailjet-apiv3-php" />
+      <excludeFolder url="file://$MODULE_DIR$/app/vendor/mailjet/mailjet-swiftmailer" />
+      <excludeFolder url="file://$MODULE_DIR$/app/vendor/mailjet/mailjet-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/app/vendor/symfony/mailjet-mailer" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
